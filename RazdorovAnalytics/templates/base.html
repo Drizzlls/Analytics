@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    {% block head %} {% include 'inc/_head.html' %} {% endblock %}
+	<title>{% block title %}Раздоров и компания{% endblock %}</title>
+</head>
+
+<body>
+	<div class="wrapper">
+		{% block header %}{% include 'inc/_header.html' %}{% endblock %}
+		<div class="page-wrapper">
+			<div class="page-content">
+                {% block content %} Не заполнен блок "Content" {% endblock %}
+			</div>
+		</div>
+		<div class="overlay toggle-icon"></div>
+		<a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
+        {% block footer %} {% include 'inc/_footer.html' %} {% endblock %}
+	</div>
+{% block scripts %} {% include 'inc/_scripts.html' %} {% endblock %}
+
+</body>
+
+</html>

@@ -1,0 +1,249 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load analytics_tag %}
+{% block title %} Страница с ссылками {% endblock %}
+
+{% block content %}
+
+<h1>Статистика по Объявлениям</h1>
+
+
+
+<div class="card">
+    <div class="card-body">
+
+        <div class="table-responsive">
+            <div id="example2_wrapper"
+
+                 class="dataTables_wrapper dt-bootstrap5">
+                <div class="row align-items-center">
+                    <div class="col-sm-12 col-md-3">
+                        <div class="dt-buttons btn-group">
+                            <button class="btn btn-outline-secondary buttons-copy buttons-html5"
+                                    tabindex="0"
+                                    aria-controls="example2"
+                                    type="button">
+                                <span>Copy</span>
+                            </button>
+                            <button class="btn btn-outline-secondary buttons-excel buttons-html5"
+                                    tabindex="0"
+                                    aria-controls="example2"
+                                    type="button">
+                                <span>Excel</span>
+                            </button>
+                            <button class="btn btn-outline-secondary buttons-pdf buttons-html5"
+                                    tabindex="0"
+                                    aria-controls="example2"
+                                    type="button">
+                                <span>PDF</span>
+                            </button>
+                            <button class="btn btn-outline-secondary buttons-print"
+                                    tabindex="0"
+                                    aria-controls="example2"
+                                    type="button">
+                                <span>Print</span>
+                            </button>
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-12 col-md-9">
+                                                        						<form class="float-md-end" method="post" action="">
+                                                                                    {% csrf_token %}
+									<div class="row row-cols-md-auto g-lg-3 align-items-end mb-3">
+
+										<div>
+                                            <label for="inputFromDate" class="col-md-2 col-form-label text-md-end">От</label>
+											<input type="date" class="form-control" id="inputFromDate" name="date_from">
+										</div>
+
+										<div>
+                                            <label for="inputToDate" class="col-md-2 col-form-label text-md-end">До</label>
+											<input type="date" class="form-control" id="inputToDate" name="date_to">
+										</div>
+                                        <div>
+                                        <button type="submit" class="btn btn-primary px-5">Сформировать</button>
+                                        </div>
+									</div>
+								</form>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table id="example2"
+                               class="table table-striped table-bordered dataTable"
+                               role="grid"
+                               aria-describedby="example2_info">
+                            <thead>
+                            <tr role="row">
+                                <th class="sorting_asc"
+                                    tabindex="0"
+                                    aria-controls="example"
+                                    rowspan="1"
+                                    colspan="1"
+                                    aria-sort="ascending"
+                                    aria-label="Name: activate to sort column descending"
+                                    style="width: 229.797px;">
+Название группы
+                                </th>
+                                <th class="sorting"
+                                    tabindex="0"
+                                    aria-controls="example"
+                                    rowspan="1"
+                                    colspan="1"
+                                    aria-label="Position: activate to sort column ascending"
+                                    style="width: 369.844px;">
+                                    Расход с НДС
+                                </th>
+                                <th class="sorting"
+                                    tabindex="0"
+                                    aria-controls="example"
+                                    rowspan="1"
+                                    colspan="1"
+                                    aria-label="Office: activate to sort column ascending"
+                                    style="width: 167.953px;">
+                                    Конверсии
+                                </th>
+                                <th class="sorting"
+                                    tabindex="0"
+                                    aria-controls="example"
+                                    rowspan="1"
+                                    colspan="1"
+                                    aria-label="Age: activate to sort column ascending"
+                                    style="width: 82.4531px;">
+                                    Цена конверсии
+                                </th>
+                                <th class="sorting"
+                                    tabindex="0"
+                                    aria-controls="example"
+                                    rowspan="1"
+                                    colspan="1"
+                                    aria-label="Age: activate to sort column ascending"
+                                    style="width: 82.4531px;">
+                                    Кач.Лиды
+                                </th>
+                                <th class="sorting"
+                                    tabindex="0"
+                                    aria-controls="example"
+                                    rowspan="1"
+                                    colspan="1"
+                                    aria-label="Age: activate to sort column ascending"
+                                    style="width: 82.4531px;">
+                                    Цена Кач.Лида
+                                </th>
+                                <th class="sorting"
+                                    tabindex="0"
+                                    aria-controls="example"
+                                    rowspan="1"
+                                    colspan="1"
+                                    aria-label="Age: activate to sort column ascending"
+                                    style="width: 82.4531px;">
+                                    Договоры
+                                </th>
+                                <th class="sorting"
+                                    tabindex="0"
+                                    aria-controls="example"
+                                    rowspan="1"
+                                    colspan="1"
+                                    aria-label="Age: activate to sort column ascending"
+                                    style="width: 82.4531px;">
+                                    Цена договора
+                                </th>
+                                <th class="sorting"
+                                    tabindex="0"
+                                    aria-controls="example"
+                                    rowspan="1"
+                                    colspan="1"
+                                    aria-label="Age: activate to sort column ascending"
+                                    style="width: 82.4531px;">
+                                    Прибыль
+                                </th>
+                                <th class="sorting"
+                                    tabindex="0"
+                                    aria-controls="example"
+                                    rowspan="1"
+                                    colspan="1"
+                                    aria-label="Age: activate to sort column ascending"
+                                    style="width: 82.4531px;">
+                                    Клики
+                                </th>
+                                <th class="sorting"
+                                    tabindex="0"
+                                    aria-controls="example"
+                                    rowspan="1"
+                                    colspan="1"
+                                    aria-label="Age: activate to sort column ascending"
+                                    style="width: 82.4531px;">
+                                    Цена клика
+                                </th>
+                                <th class="sorting"
+                                    tabindex="0"
+                                    aria-controls="example"
+                                    rowspan="1"
+                                    colspan="1"
+                                    aria-label="Age: activate to sort column ascending"
+                                    style="width: 82.4531px;">
+                                    Отказы
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            {% for com in req %}
+
+
+                            <tr role="row"
+                                class="odd">
+                                <td class="sorting_1">
+                                    <a href="#">{{com.AdGroupName}}</a>
+                                </td>
+                                <td class="sorting_1">
+                                  {{com.Cost|floatformat:2}}
+                                </td>
+                                <td class="sorting_1">
+                                 {{com.Conversions}}
+                                </td>
+                                <td class="sorting_1">
+                                    {{com.CostPerConversion|floatformat:2}}
+                                </td>
+                                <td class="sorting_1">
+                                   {{com.Qualitative}}
+                                </td>
+                                <td class="sorting_1">
+                                    {{com.CostOfQualityLead|floatformat:2}}
+                                </td>
+                                <td class="sorting_1">
+                                    {{com.Deal}}
+                                </td>
+                                <td class="sorting_1">
+                                    {{com.ContractPrice|floatformat:2}}
+                                </td>
+                                <td class="sorting_1">
+                                   {{com.Profit|floatformat:2}}
+                                </td>
+                                <td class="sorting_1">
+                                    {{com.Clicks}}
+                                </td>
+                                <td class="sorting_1">
+                                    {{com.AvgCpc|floatformat:2}}
+                                </td>
+                                <td class="sorting_1">
+                                    {{com.BounceRate}} %
+                                </td>
+
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

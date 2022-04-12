@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load analytics_tag %}
+{% block title %} Страница с ссылками {% endblock %}
+
+{% block content %}
+<form class="float-md-end" method="post"">
+                                                                                    {% csrf_token %}
+									<div class="row row-cols-md-auto g-lg-3 align-items-end mb-3">
+									{{ form.as_p }}
+                                        <div>
+                                        <button type="submit" class="btn btn-primary px-5">Сформировать</button>
+                                        </div>
+									</div>
+								</form>
+
+<h1>Выберите аккаунт</h1>
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 row-cols-xl-4">
+    {% for acc in accounts %}
+					<div class="col">
+						<div class="card">
+							<div class="card-body text-center">
+								<h5 class="card-title">{{acc.login}}</h5>
+                                <a href="{% url 'indexCompany' acc.login %}" class="btn btn-primary">Смотреть</a>
+							</div>
+						</div>
+					</div>
+
+{% endfor %}
+					</div>
+
+{% endblock %}
