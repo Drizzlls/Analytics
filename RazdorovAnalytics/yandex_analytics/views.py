@@ -37,16 +37,18 @@ class Analytics_yandex:
                 "SelectionCriteria": {
                     "DateFrom": self.settings['DateFrom'],
                     "DateTo": self.settings['DateTo'],
-                    "Filter": [{
-                        "Field": "Impressions",
-                        "Operator": "GREATER_THAN",
-                        "Values": ["0"]
-                    }],
                     # "Filter": [{
-                    #     "Field": self.settings['Field'] ,
-                    #     "Operator": self.settings['Operator'],
-                    #     "Values": self.settings['Values']
+                    #     "Field": "Impressions",
+                    #     "Operator": "GREATER_THAN",
+                    #     "Values": ["0"]
                     # }],
+                    "Filter": [{
+                        "Field": self.settings['Field'] ,
+                        "Operator": self.settings['Operator'],
+                        "Values": self.settings['Values']
+                    },
+
+                    ],
 
                 },
                 "ReportType": self.settings["ReportType"],
@@ -68,10 +70,11 @@ class Analytics_yandex:
         return yandex_dict
 
 class Analytics_bitrix24:
-    def __init__(self,data,date_from,date_to):
+    def __init__(self,data,date_from,date_to,utm):
         self.data = data
         self.date_from = date_from
         self.date_to = date_to
+        self.utm = utm
 
     def bitrix24_analytics(self):
         bitrix_dict = self.data
@@ -98,7 +101,7 @@ class Analytics_bitrix24:
             deals = b.callMethod(
                 'crm.lead.list',
                 filter={
-                    'UTM_CAMPAIGN': r['CampaignId'],
+                    f'{self.utm}.': r['CampaignId'],
                     '>DATE_CREATE': self.date_from,
                     '<DATE_CREATE': self.date_to,
                 })
@@ -146,7 +149,8 @@ def index_company(request,company_id):
         "Operator" : "EQUALS",
         "Values": ["59472447"],
         "ApiKey" : YandexData.objects.get(login = company_id).apiKey,
-        "Login": YandexData.objects.get(login=company_id).login
+        "Login": YandexData.objects.get(login=company_id).login,
+        "UTM": "UTM_CAMPAIGN",
 
     }
     if request.POST:
@@ -159,7 +163,7 @@ def index_company(request,company_id):
     company_yandex = Analytics_yandex(settings=settings)
     get_company = company_yandex.yandex_analytics()
 
-    company_bitrix24 = Analytics_bitrix24(data = get_company,date_to = settings['DateTo'],date_from = settings['DateFrom'])
+    company_bitrix24 = Analytics_bitrix24(data = get_company,date_to = settings['DateTo'],date_from = settings['DateFrom'],utm=settings['UTM'])
     full_data = company_bitrix24.bitrix24_analytics()
     return render(request, 'yandex_analytics/indexCompany.html',{'req':full_data,'url_comp':new_url[2]})
 
@@ -174,6 +178,7 @@ def index_group(request,company_id,group_id):
         "Values": [f"{group_id}"],
         "ApiKey": YandexData.objects.get(login=company_id).apiKey,
         "Login": YandexData.objects.get(login=company_id).login,
+        "UTM": "UTM_CAMPAIGN"
 
     }
     if request.POST:
@@ -186,7 +191,7 @@ def index_group(request,company_id,group_id):
     group_yandex = Analytics_yandex(settings=settings)
     get_group = group_yandex.yandex_analytics()
 
-    group_bitrix24 = Analytics_bitrix24(data = get_group,date_to = settings['DateTo'],date_from = settings['DateFrom'])
+    group_bitrix24 = Analytics_bitrix24(data = get_group,date_to = settings['DateTo'],date_from = settings['DateFrom'],utm=settings['UTM'])
     full_data_group = group_bitrix24.bitrix24_analytics()
     return render(request, 'yandex_analytics/campn.html',{'req':full_data_group,"group":group_id,'url_comp':new_url[2],"url_group":new_url[3]})
 
@@ -210,10 +215,8 @@ def index_ad(request,company_id,group_id,ad_id):
         settings['DateTo'] = datetime.date.today()
     group_yandex = Analytics_yandex(settings=settings)
     get_group = group_yandex.yandex_analytics()
-
-    group_bitrix24 = Analytics_bitrix24(data=get_group, date_to=settings['DateTo'], date_from=settings['DateFrom'])
+    group_bitrix24 = Analytics_bitrix24(data=get_group, date_to=settings['DateTo'], date_from=settings['DateFrom'],utm=settings['UTM'])
     full_data_ad = group_bitrix24.bitrix24_analytics()
-    pprint.pprint(full_data_ad)
     return render(request, 'yandex_analytics/ad.html', {'req': full_data_ad})
 
 
