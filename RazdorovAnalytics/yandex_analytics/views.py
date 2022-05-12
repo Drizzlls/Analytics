@@ -37,18 +37,18 @@ class Analytics_yandex:
                 "SelectionCriteria": {
                     "DateFrom": self.settings['DateFrom'],
                     "DateTo": self.settings['DateTo'],
-                    # "Filter": [{
-                    #     "Field": "Impressions",
-                    #     "Operator": "GREATER_THAN",
-                    #     "Values": ["0"]
-                    # }],
                     "Filter": [{
-                        "Field": self.settings['Field'] ,
-                        "Operator": self.settings['Operator'],
-                        "Values": self.settings['Values']
-                    },
+                        "Field": "Impressions",
+                        "Operator": "GREATER_THAN",
+                        "Values": ["0"]
+                    }],
+                    # "Filter": [{
+                    #     "Field": self.settings['Field'] ,
+                    #     "Operator": self.settings['Operator'],
+                    #     "Values": self.settings['Values']
+                    # },
 
-                    ],
+                    # ],
 
                 },
                 "ReportType": self.settings["ReportType"],
@@ -101,7 +101,7 @@ class Analytics_bitrix24:
             deals = b.callMethod(
                 'crm.lead.list',
                 filter={
-                    f'{self.utm}.': r['CampaignId'],
+                    f'{self.utm}': r['AdGroupId'],
                     '>DATE_CREATE': self.date_from,
                     '<DATE_CREATE': self.date_to,
                 })
@@ -145,9 +145,9 @@ def index_company(request,company_id):
     settings = {
         "FieldNames": ["CampaignId", "Clicks", "Cost", "Conversions", "AvgCpc", "BounceRate", "Year"],
         "ReportType": "CAMPAIGN_PERFORMANCE_REPORT",
-        "Field": "CampaignId",
-        "Operator" : "EQUALS",
-        "Values": ["59472447"],
+        # "Field": "CampaignId",
+        # "Operator" : "EQUALS",
+        # "Values": ["59472447"],
         "ApiKey" : YandexData.objects.get(login = company_id).apiKey,
         "Login": YandexData.objects.get(login=company_id).login,
         "UTM": "UTM_CAMPAIGN",
@@ -173,12 +173,12 @@ def index_group(request,company_id,group_id):
     settings = {
         "FieldNames": ["CampaignId", "Clicks", "Cost", "Conversions", "AvgCpc", "BounceRate", "Year","AdGroupName","AdGroupId"],
         "ReportType": "ADGROUP_PERFORMANCE_REPORT",
-        "Field": "CampaignId",
-        "Operator" : "EQUALS",
-        "Values": [f"{group_id}"],
+        # "Field": "CampaignId",
+        # "Operator" : "EQUALS",
+        # "Values": [f"{group_id}"],
         "ApiKey": YandexData.objects.get(login=company_id).apiKey,
         "Login": YandexData.objects.get(login=company_id).login,
-        "UTM": "UTM_CAMPAIGN"
+        "UTM": "UTM_TERM"
 
     }
     if request.POST:
